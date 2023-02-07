@@ -2,18 +2,19 @@ version: "3"
 
 services:
     minio:
+        container_name: hl-minio-storage
         image: docker.io/bitnami/minio:2023
         environment:
-          MINIO_ROOT_USER: ${MINIO_ROOT_USER}
-          MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+            MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+            MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
         ports:
             - "9000:9000"
             - "9001:9001"
         volumes:
             - miniodata:/data
     nginx:
+        container_name: hl-nginx-proxy-server
         image: nginx:latest
-        container_name: proxy-server
         restart: unless-stopped
         ports:
             - 80:80
@@ -24,4 +25,4 @@ services:
             - ./conf.d/:/etc/nginx/conf.d/
             - /etc/letsencrypt/live/alemax.site:/etc/nginx
 volumes:
-  miniodata:
+    miniodata:
