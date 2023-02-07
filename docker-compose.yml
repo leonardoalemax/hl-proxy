@@ -14,3 +14,5 @@ services:
             - ./conf.d/:/etc/nginx/conf.d/
             - /nfs/home/Docker/ssl/alemax_site.pem:/etc/nginx/alemax_site.pem
             - /nfs/home/Docker/ssl/alemax_site.key:/etc/nginx/alemax_site.key
+            - /etc/letsencrypt/live/alemax.site/fullchain.pem:/etc/nginx/fullchain.pem
+            - /etc/letsencrypt/live/alemax.site/privkey.pem:/etc/nginx/privkey.pem
