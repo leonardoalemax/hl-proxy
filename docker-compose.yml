@@ -7,6 +7,7 @@ services:
         environment:
             MINIO_ROOT_USER: ${MINIO_ROOT_USER}
             MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+            MINIO_SERVER_URL: https://minio.alemax.site
         ports:
             - "9000:9000"
             - "9001:9001"
