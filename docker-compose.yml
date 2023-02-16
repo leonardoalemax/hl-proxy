@@ -5,7 +5,7 @@ services:
         container_name: hl-minio-storage
         image: docker.io/bitnami/minio:2023
         environment:
-            MINIO_ETCD_ENDPOINTS: https://minio.alemax.site
+            MINIO_ETCD_ENDPOINTS: http://minio.alemax.site
             MINIO_ROOT_USER: ${MINIO_ROOT_USER}
             MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
         ports:
