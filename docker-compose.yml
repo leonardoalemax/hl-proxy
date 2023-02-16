@@ -5,9 +5,9 @@ services:
         container_name: hl-minio-storage
         image: docker.io/bitnami/minio:2023
         environment:
-            MINIO_SERVER_URL: http://minio.alemax.site
             MINIO_ROOT_USER: ${MINIO_ROOT_USER}
             MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+            MINIO_SERVER_URL: http://minio.alemax.site
         ports:
             - "9000:9000"
             - "9001:9001"
