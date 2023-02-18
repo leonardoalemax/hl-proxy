@@ -13,8 +13,8 @@ services:
         ports:
             - "2342:2342"
         environment:
-            PHOTOPRISM_ADMIN_USER: ${MINIO_ROOT_USER}
-            PHOTOPRISM_ADMIN_PASSWORD: ${MINIO_ROOT_PASSWORD}
+            PHOTOPRISM_ADMIN_USER: ${ROOT_USER}
+            PHOTOPRISM_ADMIN_PASSWORD: ${ROOT_PASSWORD}
             PHOTOPRISM_AUTH_MODE: "password" # authentication mode (public, password)
             PHOTOPRISM_SITE_URL: "https://photoprism.alemax.site/" # server URL in the format "http(s)://domain.name(:port)/(path)"
             PHOTOPRISM_ORIGINALS_LIMIT: 5000 # file size limit for originals in MB (increase for high-res video)
@@ -37,7 +37,7 @@ services:
             PHOTOPRISM_DATABASE_SERVER: "mariadb:3306" # MariaDB or MySQL database server (hostname:port)
             PHOTOPRISM_DATABASE_NAME: "photoprism" # MariaDB or MySQL database schema name
             PHOTOPRISM_DATABASE_USER: "photoprism" # MariaDB or MySQL database user name
-            PHOTOPRISM_DATABASE_PASSWORD: ${MINIO_ROOT_PASSWORD} # MariaDB or MySQL database user password
+            PHOTOPRISM_DATABASE_PASSWORD: ${ROOT_PASSWORD} # MariaDB or MySQL database user password
             PHOTOPRISM_SITE_CAPTION: "AI-Powered Photos App"
             PHOTOPRISM_SITE_DESCRIPTION: "" # meta site description
             PHOTOPRISM_SITE_AUTHOR: "" # meta site author
@@ -60,15 +60,15 @@ services:
             MARIADB_INITDB_SKIP_TZINFO: "1"
             MARIADB_DATABASE: "photoprism"
             MARIADB_USER: "photoprism"
-            MARIADB_PASSWORD: ${MINIO_ROOT_PASSWORD}
-            MARIADB_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+            MARIADB_PASSWORD: ${ROOT_PASSWORD}
+            MARIADB_ROOT_PASSWORD: ${ROOT_PASSWORD}
     minio:
         container_name: hl-minio-storage
         image: docker.io/bitnami/minio:2023
         environment:
             CONSOLE_SECURE_TLS_REDIRECT: "off"
-            MINIO_ROOT_USER: ${MINIO_ROOT_USER}
-            MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+            MINIO_ROOT_USER: ${ROOT_USER}
+            MINIO_ROOT_PASSWORD: ${ROOT_PASSWORD}
             MINIO_BROWSER_REDIRECT_URL: "https://minio.alemax.site"
         ports:
             - "9000:9000"
