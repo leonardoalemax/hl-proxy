@@ -1,6 +1,16 @@
 version: "3"
 
 services:
+    wiznotes:
+        container_name: hl-wiznotes
+        image: wiznote/wizserver:latest
+        restart: unless-stopped
+        volumes:
+            - "/etc/localtime:/etc/localtime"
+            - "wiznotedata:/wiz/storage"
+        ports:
+            - "4200:80"
+            - "9269:9269/udp"
     photoprism:
         container_name: hl-photoprism
         image: photoprism/photoprism:latest
@@ -45,7 +55,7 @@ services:
         volumes:
             - "~/Pictures:/photoprism/originals" # Original media files (DO NOT REMOVE)
             - "./storage:/photoprism/storage" # *Writable* storage folder for cache, database, and sidecar files (DO NOT REMOVE)
-    mariadb:
+    photoprismdb:
         container_name: hl-photoprism-mariadb
         restart: unless-stopped
         image: mariadb:10.10
@@ -54,7 +64,7 @@ services:
             - apparmor:unconfined
         command: mysqld --innodb-buffer-pool-size=512M --transaction-isolation=READ-COMMITTED --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --max-connections=512 --innodb-rollback-on-timeout=OFF --innodb-lock-wait-timeout=120
         volumes:
-            - "./database:/var/lib/mysql" # DO NOT REMOVE
+            - "photoprismdbdata:/var/lib/mysql" # DO NOT REMOVE
         environment:
             MARIADB_AUTO_UPGRADE: "1"
             MARIADB_INITDB_SKIP_TZINFO: "1"
@@ -75,16 +85,6 @@ services:
             - "9001:9001"
         volumes:
             - miniodata:/data
-    watchtower:
-        restart: unless-stopped
-        image: containrrr/watchtower
-        profiles: ["update"]
-        environment:
-            WATCHTOWER_CLEANUP: "true"
-            WATCHTOWER_POLL_INTERVAL: 7200 # checks for updates every two hours
-        volumes:
-            - "/var/run/docker.sock:/var/run/docker.sock"
-            - "~/.docker/config.json:/config.json" # optional, for authentication if you have a Docker Hub account
     nginx:
         container_name: hl-nginx-proxy-server
         image: nginx:latest
@@ -98,6 +98,16 @@ services:
             - ./conf.d/:/etc/nginx/conf.d/
             - /etc/letsencrypt/live/alemax.site/fullchain.pem:/etc/nginx/fullchain.pem
             - /etc/letsencrypt/live/alemax.site/privkey.pem:/etc/nginx/privkey.pem
-
+    watchtower:
+        restart: unless-stopped
+        image: containrrr/watchtower
+        profiles: ["update"]
+        environment:
+            WATCHTOWER_CLEANUP: "true"
+            WATCHTOWER_POLL_INTERVAL: 7200
+        volumes:
+            - "/var/run/docker.sock:/var/run/docker.sock"
 volumes:
     miniodata:
+    wiznotedata:
+    photoprismdbdata:
